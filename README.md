@@ -1,2 +1,2 @@
-# mignosaurus
-A game in Rust (WASM)
+# run
+A basic game in Rust

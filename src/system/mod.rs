@@ -1,0 +1,9 @@
+pub mod physics;
+pub mod offscreen;
+pub mod dino;
+pub mod sprite;
+pub mod virus;
+pub mod background;
+pub mod render;
+pub mod score;
+pub mod rules;
