@@ -1,6 +1,6 @@
 <div align="center">
-<img src="asset/Mignosaurus_saute.png" width="50%"></img>
-
+<img src="asset/path4559.png" width="50%"></img>
+<br />
  <strong>
    A Rust Game with Dinosaure and Virus
  </strong>
