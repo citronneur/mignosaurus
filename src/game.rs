@@ -8,7 +8,7 @@ use system::dino::{Jump, DinoSystem, DinoAnimationSystem};
 use std::time::Duration;
 use system::offscreen::OffscreenSystem;
 use component::virus::{Virus};
-use component::dino::{Dino, DinoSpeed};
+use component::dino::Dino;
 use system::virus::{VirusSystem, VirusMotionSystem};
 use config;
 use asset;
@@ -17,8 +17,11 @@ use component::background::{Background, Relative};
 use system::background::{BackgroundSystem, RocketSystem};
 use system::render::{RenderSystem, PixelBuffer, Sprite, load};
 use specs::prelude::*;
-use system::score::ScoreSystem;
+use system::score::{ScoreSystem, ScoreSpriteSystem};
 use system::rules::{Rules, RulesSystem};
+use component::score::ScoreSprite;
+use component::ihm::IhmElement;
+use system::ihm::IhmSystem;
 
 
 pub struct Game<'a, 'b> {
@@ -34,7 +37,6 @@ impl<'a, 'b> Game<'a, 'b> {
         world.insert(PixelBuffer::new(config::WIDTH as usize, 600));
         world.insert(Jump::from(false));
         world.insert(DeltaTime::from(0.0 as f64));
-        world.insert(DinoSpeed::from(0.0));
         world.insert(Rules::new());
 
         // Load the sprite rendering component
@@ -48,6 +50,8 @@ impl<'a, 'b> Game<'a, 'b> {
         world.register::<Background>();
         world.register::<Relative>();
         world.register::<Hitmap>();
+        world.register::<ScoreSprite>();
+        world.register::<IhmElement>();
 
         let mut asset_manager = AssetManager::new();
 
@@ -60,6 +64,17 @@ impl<'a, 'b> Game<'a, 'b> {
         asset::update(&mut asset_manager, "ground".to_string(), asset::ground::ASSET, BoundingBox::new(1024.0, 32.0));
         asset::update(&mut asset_manager, "rocket".to_string(), asset::rocket::ASSET, BoundingBox::new(85.0, 66.0));
         asset::update(&mut asset_manager, "cloud".to_string(), asset::cloud::ASSET, BoundingBox::new(174.0, 111.0));
+        asset::update(&mut asset_manager, "1".to_string(), asset::num1::ASSET, BoundingBox::new(80.0, 110.0));
+        asset::update(&mut asset_manager, "2".to_string(), asset::num2::ASSET, BoundingBox::new(80.0, 110.0));
+        asset::update(&mut asset_manager, "3".to_string(), asset::num3::ASSET, BoundingBox::new(80.0, 110.0));
+        asset::update(&mut asset_manager, "4".to_string(), asset::num4::ASSET, BoundingBox::new(80.0, 110.0));
+        asset::update(&mut asset_manager, "5".to_string(), asset::num5::ASSET, BoundingBox::new(80.0, 110.0));
+        asset::update(&mut asset_manager, "6".to_string(), asset::num6::ASSET, BoundingBox::new(80.0, 110.0));
+        asset::update(&mut asset_manager, "7".to_string(), asset::num7::ASSET, BoundingBox::new(80.0, 110.0));
+        asset::update(&mut asset_manager, "8".to_string(), asset::num8::ASSET, BoundingBox::new(80.0, 110.0));
+        asset::update(&mut asset_manager, "9".to_string(), asset::num9::ASSET, BoundingBox::new(80.0, 110.0));
+        asset::update(&mut asset_manager, "title".to_string(), asset::title::ASSET, BoundingBox::new(901.0, 216.0));
+        asset::update(&mut asset_manager, "touche".to_string(), asset::touche::ASSET, BoundingBox::new(446.0, 165.0));
 
         world.create_entity()
             .with(Sprite::new(asset_manager["ground"].0.clone(), 0))
@@ -72,7 +87,7 @@ impl<'a, 'b> Game<'a, 'b> {
 
         world.create_entity()
             .with(Sprite::new(asset_manager["dino_run"].0.clone(), config::ZDINO))
-            .with(Position::new(50.0, 60.0))
+            .with(Position::new(50.0, 100.0))
             .with(BoundingBox::new(120.0, 162.0))
             .with(Velocity::new(0.0, 0.0))
             .with(Force::new(0.0, -4500.0))
@@ -92,9 +107,11 @@ impl<'a, 'b> Game<'a, 'b> {
             .with(VirusSystem::new(), "virus", &[])
             .with(DinoAnimationSystem::new(), "dinoanimationsystem", &["gravity"])
             .with(SpritePositionSystem, "spriteposition", &["velocity"])
-            .with(ScoreSystem, "scoresystem", &["spriteposition"])
+            .with(ScoreSystem, "scoresystem", &["offscreen"])
             .with(RulesSystem, "rules", &["spriteposition"])
-            .with(BackgroundSystem, "background", &["spriteposition"])
+            .with(BackgroundSystem, "background", &["scoresystem"])
+            .with(IhmSystem, "ihm", &[])
+            .with(ScoreSpriteSystem::new(), "scoresprite", &["spriteposition"])
             .with(RocketSystem::new(24.0, "rocket".to_string(), 50.0), "rocket", &[])
             .with(RocketSystem::new(8.0, "cloud".to_string(), 100.0), "cloud", &[])
             .with_thread_local(RenderSystem)

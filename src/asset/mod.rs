@@ -12,6 +12,17 @@ pub mod virus_2;
 pub mod ground;
 pub mod rocket;
 pub mod cloud;
+pub mod num1;
+pub mod num2;
+pub mod num3;
+pub mod num4;
+pub mod num5;
+pub mod num6;
+pub mod num7;
+pub mod num8;
+pub mod num9;
+pub mod title;
+pub mod touche;
 
 pub type AssetManager<> = HashMap<String, (SpriteRef, BoundingBox, &'static[u32])>;
 

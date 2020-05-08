@@ -7,3 +7,4 @@ pub mod background;
 pub mod render;
 pub mod score;
 pub mod rules;
+pub mod ihm;

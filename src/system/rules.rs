@@ -17,13 +17,17 @@ impl Default for RulesState {
 
 #[derive(Default)]
 pub struct Rules {
-    pub state: RulesState
+    pub state: RulesState,
+    pub score: u32,
+    pub rel_speed: f64
 }
 
 impl Rules {
     pub fn new() -> Self {
         Rules {
-            state: RulesState::PENDING
+            state: RulesState::PENDING,
+            score: 0,
+            rel_speed: 0.0
         }
     }
 }

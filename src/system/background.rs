@@ -3,7 +3,7 @@ use component::physics::{Position, BoundingBox, Velocity, DeltaTime};
 use asset::AssetManager;
 use system::render::Sprite;
 use component::background::{Background, Relative};
-use component::dino::DinoSpeed;
+use system::rules::Rules;
 
 /// Background system
 pub struct BackgroundSystem;
@@ -12,12 +12,12 @@ impl<'a> System<'a> for BackgroundSystem {
         Entities<'a>,
         Read<'a, LazyUpdate>,
         Read<'a, AssetManager>,
-        Read<'a, DinoSpeed>,
+        Read<'a, Rules>,
         ReadStorage<'a, Background>,
         ReadStorage<'a, Position>
     );
 
-    fn run(&mut self, (entities, updater, asset_manager, speed, background, pos): Self::SystemData) {
+    fn run(&mut self, (entities, updater, asset_manager, rules, background, pos): Self::SystemData) {
         let mut min_x = -1020.0;
 
         for (background, pos) in (&background, &pos).join() {
@@ -31,7 +31,7 @@ impl<'a> System<'a> for BackgroundSystem {
             updater.insert(entity, Sprite::new(asset_manager["ground"].0.clone(), 0));
             updater.insert(entity, Position::new(1022.0 + min_x, 180.0));
             updater.insert(entity, asset_manager["ground"].1.clone());
-            updater.insert(entity, Velocity::new(-300.0 - (*speed) as f64, 0.0));
+            updater.insert(entity, Velocity::new(-300.0 - rules.rel_speed, 0.0));
             updater.insert(entity, Background);
             updater.insert(entity, Relative);
         }
@@ -63,10 +63,10 @@ impl<'a> System<'a> for RocketSystem {
         Read<'a, LazyUpdate>,
         Read<'a, AssetManager>,
         Read<'a, DeltaTime>,
-        Read<'a, DinoSpeed>,
+        Read<'a, Rules>,
     );
 
-    fn run(&mut self, (entities, updater, asset_manager, delta_time, speed): Self::SystemData) {
+    fn run(&mut self, (entities, updater, asset_manager, delta_time, rules): Self::SystemData) {
         self.delta += (*delta_time);
         if self.delta > self.tempo {
             self.delta = 0.0;
@@ -76,7 +76,7 @@ impl<'a> System<'a> for RocketSystem {
             updater.insert(entity, Sprite::new(asset_manager[&self.asset].0.clone(), 0));
             updater.insert(entity, Position::new(1023.0, 380.0));
             updater.insert(entity, asset_manager[&self.asset].1.clone());
-            updater.insert(entity, Velocity::new(-self.speed - (*speed) as f64, 0.0));
+            updater.insert(entity, Velocity::new(-self.speed - rules.rel_speed, 0.0));
             updater.insert(entity, Relative);
         }
     }

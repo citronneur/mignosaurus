@@ -9,7 +9,7 @@ use miniquad::*;
 use config;
 use asset::AssetManager;
 use component::background::Relative;
-use component::dino::DinoSpeed;
+use system::rules::Rules;
 
 
 pub struct VirusSystem {
@@ -64,10 +64,10 @@ impl<'a> System<'a> for VirusSystem {
         Read<'a, AssetManager>,
         ReadStorage<'a, Virus>,
         ReadStorage<'a, Position>,
-        Read<'a, DinoSpeed>
+        Read<'a, Rules>
     );
 
-    fn run(&mut self, (entities, updater, delta_time, asset_manager, virus, pos, speed): Self::SystemData) {
+    fn run(&mut self, (entities, updater, delta_time, asset_manager, virus, pos, rules): Self::SystemData) {
         let mut min_x = 0.0;
 
         for (vir, pos) in (&virus, &pos).join() {
@@ -76,7 +76,7 @@ impl<'a> System<'a> for VirusSystem {
             }
         }
 
-        self.update(&(*asset_manager), *delta_time, min_x, &entities, &updater, -1.0 * (*speed) as f64);
+        self.update(&(*asset_manager), *delta_time, min_x, &entities, &updater, -1.0 * rules.rel_speed);
     }
 }
 
