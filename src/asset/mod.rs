@@ -21,6 +21,7 @@ pub mod num6;
 pub mod num7;
 pub mod num8;
 pub mod num9;
+pub mod num0;
 pub mod title;
 pub mod touche;
 

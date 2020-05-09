@@ -22,22 +22,27 @@ pub struct Render {
 impl Render {
     /// Setup the OpenGL pipeline and the texture for the framebuffer.
     pub fn new(ctx: &mut Context, width: usize, height: usize) -> Self {
+        let (screen_width, screen_height) = ctx.screen_size();
         // Setup the quad vertices
+        let x_min = -1.0 * width as f32 / screen_width;
+        let x_max =  width as f32 / screen_width;
+        let y_min = -1.0 * height as f32 / screen_height;
+        let y_max = height as f32 / screen_height;
         let vertices: [Vertex; 4] = [
             Vertex {
-                pos: Vec2 { x: -1.0, y: -1.0 },
+                pos: Vec2 { x: x_min, y: y_min },
                 uv: Vec2 { x: 0.0, y: 1.0 },
             },
             Vertex {
-                pos: Vec2 { x: 1.0, y: -1.0 },
+                pos: Vec2 { x: x_max, y: y_min},
                 uv: Vec2 { x: 1.0, y: 1.0 },
             },
             Vertex {
-                pos: Vec2 { x: 1.0, y: 1.0 },
+                pos: Vec2 { x: x_max, y: y_max },
                 uv: Vec2 { x: 1.0, y: 0.0 },
             },
             Vertex {
-                pos: Vec2 { x: -1.0, y: 1.0 },
+                pos: Vec2 { x: x_min, y: y_max },
                 uv: Vec2 { x: 0.0, y: 0.0 },
             },
         ];

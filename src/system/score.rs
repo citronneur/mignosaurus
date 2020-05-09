@@ -92,7 +92,7 @@ impl<'a> System<'a> for ScoreSpriteSystem {
         while score > 0 {
             let num = score % 10;
             let index = match num {
-                0 => "1",
+                0 => "0",
                 1 => "1",
                 2 => "2",
                 3 => "3",

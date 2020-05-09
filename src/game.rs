@@ -64,6 +64,7 @@ impl<'a, 'b> Game<'a, 'b> {
         asset::update(&mut asset_manager, "ground".to_string(), asset::ground::ASSET, BoundingBox::new(1024.0, 32.0));
         asset::update(&mut asset_manager, "rocket".to_string(), asset::rocket::ASSET, BoundingBox::new(85.0, 66.0));
         asset::update(&mut asset_manager, "cloud".to_string(), asset::cloud::ASSET, BoundingBox::new(174.0, 111.0));
+        asset::update(&mut asset_manager, "0".to_string(), asset::num0::ASSET, BoundingBox::new(80.0, 110.0));
         asset::update(&mut asset_manager, "1".to_string(), asset::num1::ASSET, BoundingBox::new(80.0, 110.0));
         asset::update(&mut asset_manager, "2".to_string(), asset::num2::ASSET, BoundingBox::new(80.0, 110.0));
         asset::update(&mut asset_manager, "3".to_string(), asset::num3::ASSET, BoundingBox::new(80.0, 110.0));

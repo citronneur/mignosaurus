@@ -28,7 +28,7 @@ impl<'a> System<'a> for IhmSystem {
                 let entity = entities.create();
                 updater.insert(entity, IhmElement);
                 updater.insert(entity, Sprite::new(asset_manager["title"].0.clone(), config::ZDINO + 1));
-                updater.insert(entity, Position::new(54.0, 192.0));
+                updater.insert(entity, Position::new(54.0, 250.0));
                 updater.insert(entity, asset_manager["title"].1.clone());
             }
             RulesState::END => {

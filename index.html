@@ -1,13 +1,24 @@
 <head>
     <meta charset="utf-8">
-    <title>TITLE</title>
+    <title>Mignosaurus</title>
     <style>
-        
+        html,
+        body,
+        canvas {
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: absolute;
+            background: black;
+            z-index: 0;
+        }
     </style>
 </head>
 
 <body>
-    <canvas id="glcanvas" tabindex="1" width="1024" height="600" style="margin-left: auto; margin-right: auto; display: block; padding-left: 0; padding-right: 0; border-style: solid;"></canvas>
+    <canvas id="glcanvas"></canvas>
 	
     <!-- Minified and statically hosted version of https://github.com/not-fl3/miniquad/blob/master/native/sapp-wasm/js/gl.js -->
     <script src="gl.js"></script>
